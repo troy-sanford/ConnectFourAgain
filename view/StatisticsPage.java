@@ -21,6 +21,9 @@ public class StatisticsPage {
         stage.show();
     }
 
+    /**
+     * creates a Statistics page which will display game statistics
+     */
     public static Parent makeWindow() {
 
         MenuPage.primaryStage.setTitle("Statistics");

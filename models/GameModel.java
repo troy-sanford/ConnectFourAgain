@@ -13,6 +13,9 @@ public class GameModel {
     private static int turnsTaken = 0;
     private static int[] tilesInColumns = new int[7];
 
+    public static void changeTurns() {
+        redTurn = !redTurn;
+    }
 
     public static void dropTile(Tile _tile, int _column) {
 
@@ -23,15 +26,16 @@ public class GameModel {
         turnsTaken++;
         board[_column][tilesInColumns[_column]] = _tile;
 
+        tilesInColumns[_column]++;
+    }
+
+    public static void checkHelper() {
         if (turnsTaken > 6) {
             if (check()) {
                 GamePage.notifyVictory();
             }
         }
-
-        tilesInColumns[_column]++;
-        redTurn = !redTurn;
-        GamePage.notifyTurnInTitle();
+        changeTurns();
     }
 
     public static boolean check() {
@@ -113,6 +117,7 @@ public class GameModel {
             }
         }
 
+
         return false;
 
     }
@@ -139,7 +144,6 @@ public class GameModel {
 
     public static void restartGame() {
         board = new Tile[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
-        redTurn = true;
         turnsTaken = 0;
         tilesInColumns = new int[7];
     }

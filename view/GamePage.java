@@ -100,16 +100,19 @@ public class GamePage {
         GameController.dropTile(_tile, _column);
 
         _tile.setTranslateX(_column * (Util.TILE_SIZE + Util.HORIZONTAL_PADDING) + Util.TILE_SIZE / 4);
-        _tile.setTranslateY((GameModel.BOARD_HEIGHT - GameModel.getTilesInColumn(_column)) * (Util.TILE_SIZE + Util.VERTICAL_PADDING) + Util.TILE_SIZE / 4);
+        _tile.setTranslateY((GameModel.BOARD_HEIGHT - GameController.getTilesInColumn(_column)) * (Util.TILE_SIZE + Util.VERTICAL_PADDING) + Util.TILE_SIZE / 4);
 
         GamePage.root.getChildren().add(_tile);
+
+        GameController.checkForVictory();
+        notifyTurnInTitle();
     }
 
     public static void notifyVictory() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("GAME OVER");
         alert.setHeaderText(null);
-        alert.setContentText(GameModel.getTurnColorString() + " wins!");
+        alert.setContentText(GameController.getTurnColorString() + " wins!");
 
         ButtonType backToMenu = new ButtonType("Back to Menu");
         ButtonType playAgain = new ButtonType("Play Again");
@@ -124,12 +127,13 @@ public class GamePage {
         }
 
         alert.show();
+        GameController.restartGame();
         alert.close();
 
     }
 
     public static void notifyTurnInTitle() {
-        MenuPage.primaryStage.setTitle(GameModel.getTurnColorString() + "'s turn");
+        MenuPage.primaryStage.setTitle(GameController.getTurnColorString() + "'s turn");
     }
 
 

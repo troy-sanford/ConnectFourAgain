@@ -20,6 +20,9 @@ public class SettingsPage {
         stage.show();
     }
 
+    /**
+     * creates a Settings menu that allows the user to edit which tile color goes first
+     */
     public static Parent makeWindow() {
 
         MenuPage.primaryStage.setTitle("Settings");

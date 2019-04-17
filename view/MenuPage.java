@@ -19,6 +19,9 @@ public class MenuPage {
         stage.show();
     }
 
+    /**
+     * creates a Menu with three options, Play Game, Settings, Statistics
+     */
     public static Parent makeWindow() {
 
         MenuPage.primaryStage.setTitle("Menu");
@@ -26,7 +29,7 @@ public class MenuPage {
         FlowPane fp = Util.makeFlowPane();
         MenuPage.root = fp;
 
-        Button twoPlayerButton = new Button("Two Player");
+        Button twoPlayerButton = new Button("Play Game");
         Button settingsButton = new Button("Settings");
         Button statisticsButton = new Button("Statistics");
 

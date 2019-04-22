@@ -8,6 +8,7 @@ public class GameModel {
     // set constants for board height and width
     public static final int BOARD_HEIGHT = 6;
     public static final int BOARD_WIDTH = 7;
+    public static final int TURNS_TO_WIN = 4;
 
     // create a two dimensional array of tile objects to represent the game board
     private static Tile[][] board = new Tile[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
@@ -54,8 +55,9 @@ public class GameModel {
      */
     public static void checkHelper() {
         // only check for victory after 6 turns have been taken (earliest possible victory)
-        if (turnsTaken > 6) {
+        if (turnsTaken >= (2 * TURNS_TO_WIN) - 1) {
             if (check()) {
+                DatabaseTranslator.saveData(turnsTaken);
                 GamePage.notifyVictory();
             }
         }
@@ -72,13 +74,13 @@ public class GameModel {
         int streak;
 
         // check for vertical victory
-        for (int i=0; i<7; i++) {
+        for (int i=0; i<BOARD_WIDTH; i++) {
             streak = 0;
-            for (int j=0; j<7; j++) {
+            for (int j=0; j<BOARD_HEIGHT; j++) {
                 if (board[i][j] != null) {
                     if (board[i][j].getColor().equals(getTurnColor())) {
                         streak++;
-                        if (streak >= 4) {
+                        if (streak >= TURNS_TO_WIN) {
                             return true;
                         }
                     } else {
@@ -92,13 +94,13 @@ public class GameModel {
         }
 
         // check for horizontal victory
-        for (int i=0; i<6; i++) {
+        for (int i=0; i<BOARD_HEIGHT; i++) {
             streak = 0;
-            for (int j=0; j<7; j++) {
+            for (int j=0; j<BOARD_WIDTH; j++) {
                 if (board[j][i] != null) {
                     if (board[j][i].getColor().equals(getTurnColor())) {
                         streak++;
-                        if (streak >= 4) {
+                        if (streak >= TURNS_TO_WIN) {
                             return true;
                         }
                     } else {
@@ -130,7 +132,7 @@ public class GameModel {
 
         // check for negative slope victory
         for (int i=0; i<4; i++) {
-            for (int j = 3; j < 7; j++) {
+            for (int j = 3; j < BOARD_HEIGHT; j++) {
                 if (board[i][j] != null) {
                     if (board[i][j].getColor().equals(getTurnColor())) {
                         if (board[i + 1][j - 1] != null && board[i + 1][j - 1].getColor().equals(getTurnColor())) {

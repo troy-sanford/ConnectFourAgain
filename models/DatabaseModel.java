@@ -8,7 +8,8 @@ import java.io.ObjectOutputStream;
 public class DatabaseModel {
 
     // variable for filepath to save data .dat file
-    public static final String FILEPATH = "/Users/emilybaker/Desktop/ConnectFourData";
+    public static final String FILEPATH = System.getProperty("user.home") + "/Desktop/ConnectFourData";
+
     // array to store number of wins per color, index 0 for red, index 1 for yellow
     public static int[] statistics = new int[2];
 

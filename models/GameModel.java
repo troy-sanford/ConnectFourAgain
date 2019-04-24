@@ -56,13 +56,13 @@ public class GameModel {
     public static void checkHelper() {
         // only check for victory after 6 turns have been taken (earliest possible victory)
         if (turnsTaken >= (2 * TURNS_TO_WIN) - 1) {
-            if (check()) {
-                DatabaseTranslator.saveData(turnsTaken);
+            if (GameModel.check()) {
+                DatabaseTranslator.saveData();
                 GamePage.notifyVictory();
             }
         }
         // putting this here prevents me from having to put it before every return statement in the check() method
-        changeTurns();
+        GameModel.changeTurns();
     }
 
     /**
@@ -181,14 +181,14 @@ public class GameModel {
      * @return Color object correlating to current turn
      */
     public static Color getTurnColor() {
-        return getRedTurn() ? Color.RED : Color.YELLOW;
+        return GameModel.getRedTurn() ? Color.RED : Color.YELLOW;
     }
 
     /**
      * @return String representing current turn (used for text views)
      */
     public static String getTurnColorString() {
-        return getRedTurn() ? "Red" : "Yellow";
+        return GameModel.getRedTurn() ? "Red" : "Yellow";
     }
 
     /**

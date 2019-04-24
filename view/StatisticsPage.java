@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import models.GameModel;
 import models.Util;
+import models.DatabaseTranslator;
 
 public class StatisticsPage {
 
@@ -32,10 +32,12 @@ public class StatisticsPage {
         StatisticsPage.root = fp;
 
         Button returntoMenuButton = Util.makeReturnToMenuButton();
-        Label lbl = new Label("This is where you can see your statistics");
+        Label redWins = new Label("red wins: " + DatabaseTranslator.getRedWins());
+        Label yellowWins = new Label("yellow wins: " + DatabaseTranslator.getYellowWins());
 
         StatisticsPage.root.getChildren().add(returntoMenuButton);
-        StatisticsPage.root.getChildren().add(lbl);
+        StatisticsPage.root.getChildren().add(redWins);
+        StatisticsPage.root.getChildren().add(yellowWins);
 
         return root;
 

@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import models.Util;
+import models.DatabaseTranslator;
 
 public class MenuPage {
 
@@ -36,13 +37,19 @@ public class MenuPage {
         twoPlayerButton.setOnAction(e -> { MenuPage.primaryStage.setScene(new Scene(GamePage.makeBoard()));
                                             GamePage.notifyTurnInTitle();});
         settingsButton.setOnAction(e -> MenuPage.primaryStage.setScene(new Scene(SettingsPage.makeWindow())));
-        statisticsButton.setOnAction(e -> MenuPage.primaryStage.setScene(new Scene(StatisticsPage.makeWindow())));
+        statisticsButton.setOnAction(e -> shiftToStatisticsPage());
 
         MenuPage.root.getChildren().add(twoPlayerButton);
         MenuPage.root.getChildren().add(settingsButton);
         MenuPage.root.getChildren().add(statisticsButton);
 
         return root;
+
+    }
+
+    public static void shiftToStatisticsPage() {
+        DatabaseTranslator.loadData();
+        MenuPage.primaryStage.setScene(new Scene(StatisticsPage.makeWindow()));
 
     }
 

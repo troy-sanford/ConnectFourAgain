@@ -87,6 +87,9 @@ public class GameModel {
 
         // if we get here, a valid column was selected...
 
+        // call API translator to play a *clink* sound
+        MakeSoundTranslator.playClink();
+
         // increment number of turns taken
         GameModel.turnsTaken++;
         // set the lowest available slot in the selected column to the Tile being "dropped"
@@ -103,7 +106,10 @@ public class GameModel {
     public static void checkHelper() {
         // only check for victory after 6 turns have been taken (earliest possible victory)
         if (GameModel.turnsTaken >= (2 * GameModel.TURNS_TO_WIN) - 1) {
+
+            // if check() method returns true, game has been won
             if (GameModel.check()) {
+                MakeSoundTranslator.playVictory();
                 DatabaseTranslator.saveData();
                 GamePage.notifyVictory();
             }

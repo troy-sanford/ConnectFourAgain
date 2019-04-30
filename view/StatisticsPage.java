@@ -1,5 +1,11 @@
 package view;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: View class for statistics interface
+*/
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -39,7 +45,7 @@ public class StatisticsPage {
         StatisticsPage.root.getChildren().add(redWins);
         StatisticsPage.root.getChildren().add(yellowWins);
 
-        return root;
+        return StatisticsPage.root;
 
     }
 }

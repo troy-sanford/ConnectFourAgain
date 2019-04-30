@@ -1,5 +1,11 @@
 package view;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: Main class, launches application
+*/
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 

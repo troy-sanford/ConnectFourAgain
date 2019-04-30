@@ -1,5 +1,11 @@
 package models;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: Database class to save / load data to / from a .dat file
+*/
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -14,6 +20,13 @@ public class DatabaseModel {
     public static int[] statistics = new int[2];
 
     /**
+     * @return array containing redWins, yellowWins
+     */
+    public static int[] getStatistics() {return DatabaseModel.statistics;}
+
+    //================================================================================================================
+
+    /**
      * function to increment red wins or red wins appropriately, and save data to .dat file
      * @param _redWins number of red wins, as loaded from the file
      * @param _yellowWins number of yellow wins, as loaded from the file
@@ -21,7 +34,7 @@ public class DatabaseModel {
     public static void saveData(int _redWins, int _yellowWins) {
 
         try {
-            FileOutputStream fileOut = new FileOutputStream(FILEPATH);
+            FileOutputStream fileOut = new FileOutputStream(DatabaseModel.FILEPATH);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 
             // if red won, increment red wins, keep yellow wins the same
@@ -48,21 +61,16 @@ public class DatabaseModel {
     public static void loadData() {
 
         try {
-            FileInputStream fileIn = new FileInputStream(FILEPATH);
+            FileInputStream fileIn = new FileInputStream(DatabaseModel.FILEPATH);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            statistics[0] = objectIn.read();
-            statistics[1] = objectIn.read();
+            DatabaseModel.statistics[0] = objectIn.read();
+            DatabaseModel.statistics[1] = objectIn.read();
             objectIn.close();
 
         } catch (java.io.FileNotFoundException e) {
-            statistics = new int[2];
+            DatabaseModel.statistics = new int[2];
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    /**
-     * @return array containing redWins, yellowWins
-     */
-    public static int[] getStatistics() {return statistics;}
 }

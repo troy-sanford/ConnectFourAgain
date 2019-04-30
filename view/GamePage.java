@@ -1,5 +1,11 @@
 package view;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: View class for gameplay interface
+*/
+
 import controllers.GameController;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -45,7 +51,7 @@ public class GamePage {
         GamePage.root.getChildren().addAll(makeColumnIndicator());
         GamePage.root.getChildren().add(grid);
 
-        return root;
+        return GamePage.root;
 
     }
 

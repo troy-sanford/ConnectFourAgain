@@ -1,5 +1,11 @@
 package models;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: Contains constants and methods used in View classes
+*/
+
 import javafx.scene.control.Button;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;

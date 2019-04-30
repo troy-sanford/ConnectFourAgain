@@ -1,5 +1,11 @@
 package controllers;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: Controller class to reroute data between Views and GameModel
+*/
+
 import models.GameModel;
 import models.Tile;
 

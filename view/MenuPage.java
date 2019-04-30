@@ -1,5 +1,11 @@
 package view;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: View class for menu interface
+*/
+
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.FlowPane;
@@ -43,7 +49,7 @@ public class MenuPage {
         MenuPage.root.getChildren().add(settingsButton);
         MenuPage.root.getChildren().add(statisticsButton);
 
-        return root;
+        return MenuPage.root;
 
     }
 

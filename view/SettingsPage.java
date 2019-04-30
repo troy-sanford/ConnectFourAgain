@@ -1,5 +1,11 @@
 package view;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: View class for settings interface
+*/
+
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.FlowPane;
@@ -43,7 +49,7 @@ public class SettingsPage {
         SettingsPage.root.getChildren().add(returnToMenuButton);
         SettingsPage.root.getChildren().add(redFirstButton);
 
-        return root;
+        return SettingsPage.root;
 
     }
 

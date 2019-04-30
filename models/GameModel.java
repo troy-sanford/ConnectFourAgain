@@ -1,5 +1,11 @@
 package models;
 
+/*
+    last edited: 04/30/19
+    author: Troy Sanford
+    purpose: Controls logistics of game, and determines when a match has been won
+*/
+
 import javafx.scene.paint.Color;
 import view.GamePage;
 
@@ -20,10 +26,51 @@ public class GameModel {
     private static int[] tilesInColumns = new int[7];
 
     /**
+     * function that allows Settings page to change which color goes first
+     * @param _redFirst if true, red goes first
+     */
+    public static void setRedFirst(boolean _redFirst) {
+        GameModel.redTurn = _redFirst;
+    }
+
+    /**
+     * returns number of tiles in given column
+     * @param _column integer representing a column of the board
+     * @return number of tiles in given column
+     */
+    public static int getTilesInColumn(int _column) {
+        return GameModel.tilesInColumns[_column];
+    }
+
+    /**
+     * determines which turn it is
+     * @return true - red's turn, false - yellow's turn
+     */
+    public static boolean getRedTurn() {
+        return GameModel.redTurn;
+    }
+
+    /**
+     * @return Color object correlating to current turn
+     */
+    public static Color getTurnColor() {
+        return GameModel.getRedTurn() ? Color.RED : Color.YELLOW;
+    }
+
+    /**
+     * @return String representing current turn (used for text views)
+     */
+    public static String getTurnColorString() {
+        return GameModel.getRedTurn() ? "Red" : "Yellow";
+    }
+
+    //================================================================================================================
+
+    /**
      * switch turns
      */
     public static void changeTurns() {
-        redTurn = !redTurn;
+        GameModel.redTurn = !GameModel.redTurn;
     }
 
     /**
@@ -34,20 +81,20 @@ public class GameModel {
     public static void dropTile(Tile _tile, int _column) {
 
         // if this column is full, return (invalid move)
-        if (tilesInColumns[_column] >= BOARD_HEIGHT) {
+        if (GameModel.tilesInColumns[_column] >= GameModel.BOARD_HEIGHT) {
             return;
         }
 
         // if we get here, a valid column was selected...
 
         // increment number of turns taken
-        turnsTaken++;
+        GameModel.turnsTaken++;
         // set the lowest available slot in the selected column to the Tile being "dropped"
-        board[_column][tilesInColumns[_column]] = _tile;
+        GameModel.board[_column][GameModel.tilesInColumns[_column]] = _tile;
 
         // increment the number of tiles in this column so that the next time this column is selected,
         // the new tile will go in the lowest available slot
-        tilesInColumns[_column]++;
+        GameModel.tilesInColumns[_column]++;
     }
 
     /**
@@ -55,7 +102,7 @@ public class GameModel {
      */
     public static void checkHelper() {
         // only check for victory after 6 turns have been taken (earliest possible victory)
-        if (turnsTaken >= (2 * TURNS_TO_WIN) - 1) {
+        if (GameModel.turnsTaken >= (2 * GameModel.TURNS_TO_WIN) - 1) {
             if (GameModel.check()) {
                 DatabaseTranslator.saveData();
                 GamePage.notifyVictory();
@@ -74,13 +121,13 @@ public class GameModel {
         int streak;
 
         // check for vertical victory
-        for (int i=0; i<BOARD_WIDTH; i++) {
+        for (int i=0; i<GameModel.BOARD_WIDTH; i++) {
             streak = 0;
-            for (int j=0; j<BOARD_HEIGHT; j++) {
-                if (board[i][j] != null) {
-                    if (board[i][j].getColor().equals(getTurnColor())) {
+            for (int j=0; j<GameModel.BOARD_HEIGHT; j++) {
+                if (GameModel.board[i][j] != null) {
+                    if (GameModel.board[i][j].getColor().equals(getTurnColor())) {
                         streak++;
-                        if (streak >= TURNS_TO_WIN) {
+                        if (streak >= GameModel.TURNS_TO_WIN) {
                             return true;
                         }
                     } else {
@@ -94,13 +141,13 @@ public class GameModel {
         }
 
         // check for horizontal victory
-        for (int i=0; i<BOARD_HEIGHT; i++) {
+        for (int i=0; i<GameModel.BOARD_HEIGHT; i++) {
             streak = 0;
-            for (int j=0; j<BOARD_WIDTH; j++) {
-                if (board[j][i] != null) {
-                    if (board[j][i].getColor().equals(getTurnColor())) {
+            for (int j=0; j<GameModel.BOARD_WIDTH; j++) {
+                if (GameModel.board[j][i] != null) {
+                    if (GameModel.board[j][i].getColor().equals(getTurnColor())) {
                         streak++;
-                        if (streak >= TURNS_TO_WIN) {
+                        if (streak >= GameModel.TURNS_TO_WIN) {
                             return true;
                         }
                     } else {
@@ -116,11 +163,11 @@ public class GameModel {
         // check for positive slope victory
         for (int i=0; i<4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (board[i][j] != null) {
-                    if (board[i][j].getColor().equals(getTurnColor())) {
-                        if (board[i + 1][j + 1] != null && board[i + 1][j + 1].getColor().equals(getTurnColor())) {
-                            if (board[i + 2][j + 2] != null && board[i + 2][j + 2].getColor().equals(getTurnColor())) {
-                                if (board[i + 3][j + 3] != null && board[i + 3][j + 3].getColor().equals(getTurnColor())) {
+                if (GameModel.board[i][j] != null) {
+                    if (GameModel.board[i][j].getColor().equals(getTurnColor())) {
+                        if (GameModel.board[i + 1][j + 1] != null && GameModel.board[i + 1][j + 1].getColor().equals(getTurnColor())) {
+                            if (GameModel.board[i + 2][j + 2] != null && GameModel.board[i + 2][j + 2].getColor().equals(getTurnColor())) {
+                                if (GameModel.board[i + 3][j + 3] != null && GameModel.board[i + 3][j + 3].getColor().equals(getTurnColor())) {
                                     return true;
                                 }
                             }
@@ -132,12 +179,12 @@ public class GameModel {
 
         // check for negative slope victory
         for (int i=0; i<4; i++) {
-            for (int j = 3; j < BOARD_HEIGHT; j++) {
-                if (board[i][j] != null) {
-                    if (board[i][j].getColor().equals(getTurnColor())) {
-                        if (board[i + 1][j - 1] != null && board[i + 1][j - 1].getColor().equals(getTurnColor())) {
-                            if (board[i + 2][j - 2] != null && board[i + 2][j - 2].getColor().equals(getTurnColor())) {
-                                if (board[i + 3][j - 3] != null && board[i + 3][j - 3].getColor().equals(getTurnColor())) {
+            for (int j = 3; j < GameModel.BOARD_HEIGHT; j++) {
+                if (GameModel.board[i][j] != null) {
+                    if (GameModel.board[i][j].getColor().equals(getTurnColor())) {
+                        if (GameModel.board[i + 1][j - 1] != null && GameModel.board[i + 1][j - 1].getColor().equals(getTurnColor())) {
+                            if (GameModel.board[i + 2][j - 2] != null && GameModel.board[i + 2][j - 2].getColor().equals(getTurnColor())) {
+                                if (GameModel.board[i + 3][j - 3] != null && GameModel.board[i + 3][j - 3].getColor().equals(getTurnColor())) {
                                     return true;
                                 }
                             }
@@ -147,48 +194,8 @@ public class GameModel {
             }
         }
 
-
         return false;
 
-    }
-
-    /**
-     * function that allows Settings page to change which color goes first
-     * @param _redFirst if true, red goes first
-     */
-    public static void setRedFirst(boolean _redFirst) {
-        GameModel.redTurn = _redFirst;
-    }
-
-    /**
-     * returns number of tiles in given column
-     * @param _column integer representing a column of the board
-     * @return number of tiles in given column
-     */
-    public static int getTilesInColumn(int _column) {
-        return tilesInColumns[_column];
-    }
-
-    /**
-     * determines which turn it is
-     * @return true - red's turn, false - yellow's turn
-     */
-    public static boolean getRedTurn() {
-        return redTurn;
-    }
-
-    /**
-     * @return Color object correlating to current turn
-     */
-    public static Color getTurnColor() {
-        return GameModel.getRedTurn() ? Color.RED : Color.YELLOW;
-    }
-
-    /**
-     * @return String representing current turn (used for text views)
-     */
-    public static String getTurnColorString() {
-        return GameModel.getRedTurn() ? "Red" : "Yellow";
     }
 
     /**
@@ -196,11 +203,11 @@ public class GameModel {
      */
     public static void restartGame() {
         // set game board to an empty two dimensional array
-        board = new Tile[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
+        GameModel.board = new Tile[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
         // set turns taken to 0
-        turnsTaken = 0;
+        GameModel.turnsTaken = 0;
         // each column has 0 tiles in it, so set tilesInColumns to an empty array
-        tilesInColumns = new int[7];
+        GameModel.tilesInColumns = new int[7];
     }
 
 }
